@@ -7,6 +7,7 @@ export const workspace: any = process.env.GITHUB_WORKSPACE;
 export const folder = getInput("FOLDER", { required: true });
 export const root = ".";
 
+const targetRepository = getInput("TARGET_REPOSITORY");
 // Required action data.
 export const action = {
   accessToken: getInput("ACCESS_TOKEN"),
@@ -25,9 +26,10 @@ export const action = {
       : `${process.env.GITHUB_ACTOR ||
           "github-pages-deploy-action"}@users.noreply.github.com`,
   gitHubRepository:
-    repository && repository.full_name
-      ? repository.full_name
-      : process.env.GITHUB_REPOSITORY,
+    targetRepository ? targetRepository :
+        repository && repository.full_name
+          ? repository.full_name
+          : process.env.GITHUB_REPOSITORY,
   gitHubToken: getInput("GITHUB_TOKEN"),
   name:
     pusher && pusher.name
